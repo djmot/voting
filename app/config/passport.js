@@ -34,7 +34,7 @@ module.exports = function (passport) {
 					var newUser = new User();
 
 					newUser.twitter.id = profile.id;
-					newUser.nbrClicks.clicks = 0;
+					newUser.pollList = [];
 
 					newUser.save(function (err) {
 						if (err) { throw err; }

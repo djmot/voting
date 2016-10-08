@@ -2,19 +2,21 @@
 
 var path = process.cwd();
 var ClickHandler = require(path + '/app/controllers/clickHandler.server.js');
+var PollHandler = require(path + '/app/controllers/pollHandler.server.js');
+var bodyParser = require('body-parser');
+var urlencodedParser = bodyParser.urlencoded({ extended: false });
 
 module.exports = function (app, passport) {
 	
-	// Use in API calls; if not logged in, returns JSON of empty object.
 	function isLoggedIn (req, res, next) {
 		if (req.isAuthenticated()) {
 			return next();
 		} else {
-			res.json({});
+			res.redirect('/');
 		}
 	}
 
-	var clickHandler = new ClickHandler();
+	var pollHandler = new PollHandler();
 
 	app.route('/')
 		.get(function (req, res) {
@@ -43,17 +45,21 @@ module.exports = function (app, passport) {
 		});
 
 	app.route('/api/user')
-		.get(isLoggedIn, function (req, res) {
-			res.json(req.user);
+		.get(function (req, res) {
+			if (req.isAuthenticated()) {
+				res.json(req.user);
+			} else {
+				res.json({});
+			}
 		});
 		
 	// TODO: connect to pollHandler.server, which doesn't exist yet,
 	// which will handle database access to polls here.
 	app.route('/api/poll')
 		.get(function (req, res) {
-			res.json({'poll stuff': 'goes here'});
-		}).post( function (req, res) {
-			
+			res.end('You just asked me to look up poll data.');
+		}).post(isLoggedIn, urlencodedParser, function (req, res) {
+			pollHandler.makePoll(req, res);
 		});
 
 	app.route('/auth/twitter')
