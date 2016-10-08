@@ -1,37 +1,28 @@
 'use strict';
 
 (function () {
-
-   var profileId = document.querySelector('#profile-id') || null;
-   var profileUsername = document.querySelector('#profile-username') || null;
-   var profileRepos = document.querySelector('#profile-repos') || null;
-   var displayName = document.querySelector('#display-name');
+   
+   var hideOnLoginElems = document.querySelectorAll('.hide-on-login');
+   var showOnLoginElems = document.querySelectorAll('.show-on-login');
    var apiUrl = appUrl + '/api/:id';
-
-   function updateHtmlElement (data, element, userProperty) {
-      element.innerHTML = data[userProperty];
+   
+   function changeDisplayElems (elems, newDisplay) {
+      for (var i = 0; i < elems.length; i++) {
+         elems[i].style.display = newDisplay;
+      }
    }
 
    ajaxFunctions.ready(ajaxFunctions.ajaxRequest('GET', apiUrl, function (data) {
       var userObject = JSON.parse(data);
-
-      if (userObject.displayName !== null) {
-         updateHtmlElement(userObject, displayName, 'displayName');
+      
+      // Note: setting display to an empty string reverts display to default 
+      // for that DOM element.
+      if (userObject.hasOwnProperty('twitter')) {
+         changeDisplayElems(showOnLoginElems, '');
+         changeDisplayElems(hideOnLoginElems, 'none');
       } else {
-         updateHtmlElement(userObject, displayName, 'username');
+         changeDisplayElems(hideOnLoginElems, '');
+         changeDisplayElems(showOnLoginElems, 'none');
       }
-
-      if (profileId !== null) {
-         updateHtmlElement(userObject, profileId, 'id');   
-      }
-
-      if (profileUsername !== null) {
-         updateHtmlElement(userObject, profileUsername, 'username');   
-      }
-
-      if (profileRepos !== null) {
-         updateHtmlElement(userObject, profileRepos, 'publicRepos');   
-      }
-
    }));
 })();
