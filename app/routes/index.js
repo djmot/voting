@@ -4,12 +4,13 @@ var path = process.cwd();
 var ClickHandler = require(path + '/app/controllers/clickHandler.server.js');
 
 module.exports = function (app, passport) {
-
+	
+	// Use in API calls; if not logged in, returns JSON of empty object.
 	function isLoggedIn (req, res, next) {
 		if (req.isAuthenticated()) {
 			return next();
 		} else {
-			res.redirect('/');
+			res.json({});
 		}
 	}
 
@@ -20,24 +21,39 @@ module.exports = function (app, passport) {
 			res.sendFile(path + '/public/index.html');
 		});
 
-	app.route('/login')
-		.get(function (req, res) {
-			res.sendFile(path + '/public/login.html');
-		});
-
 	app.route('/logout')
 		.get(function (req, res) {
 			req.logout();
 			res.redirect('/');
 		});
-
-	app.route('/api/:id')
+		
+	app.route('/mypolls')
+		.get(isLoggedIn, function (req, res) {
+			res.sendFile(path + '/public/mypolls.html');
+		});
+		
+	app.route('/newpoll')
+		.get(isLoggedIn, function (req, res) {
+			res.sendFile(path + '/public/newpoll.html');
+		});
+		
+	app.route('/poll/:id')
 		.get(function (req, res) {
-			if (req.isAuthenticated()) {
-				res.json(req.user);
-			} else {
-				res.json({});
-			}
+			res.sendFile(path + '/public/poll.html');
+		});
+
+	app.route('/api/user')
+		.get(isLoggedIn, function (req, res) {
+			res.json(req.user);
+		});
+		
+	// TODO: connect to pollHandler.server, which doesn't exist yet,
+	// which will handle database access to polls here.
+	app.route('/api/poll')
+		.get(function (req, res) {
+			res.json({'poll stuff': 'goes here'});
+		}).post( function (req, res) {
+			
 		});
 
 	app.route('/auth/twitter')
@@ -48,9 +64,4 @@ module.exports = function (app, passport) {
 			successRedirect: '/',
 			failureRedirect: '/'
 		}));
-
-	app.route('/api/:id/clicks')
-		.get(isLoggedIn, clickHandler.getClicks)
-		.post(isLoggedIn, clickHandler.addClick)
-		.delete(isLoggedIn, clickHandler.resetClicks);
 };

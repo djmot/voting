@@ -4,7 +4,7 @@
    
    var hideOnLoginElems = document.querySelectorAll('.hide-on-login');
    var showOnLoginElems = document.querySelectorAll('.show-on-login');
-   var apiUrl = appUrl + '/api/:id';
+   var apiUrl = appUrl + '/api/user';
    
    function changeDisplayElems (elems, newDisplay) {
       for (var i = 0; i < elems.length; i++) {
@@ -14,6 +14,8 @@
 
    ajaxFunctions.ready(ajaxFunctions.ajaxRequest('GET', apiUrl, function (data) {
       var userObject = JSON.parse(data);
+      
+      console.log("Display should change now.");
       
       // Note: setting display to an empty string reverts display to default 
       // for that DOM element.
