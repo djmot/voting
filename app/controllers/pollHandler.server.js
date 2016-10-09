@@ -44,7 +44,7 @@ function PollHandler () {
         newPoll.save(function (err, doc) {
             if (err) { throw err; }
             
-            res.json(doc);
+            res.redirect('/');
         });
     };
     
@@ -54,7 +54,7 @@ function PollHandler () {
         if (req.query.id) {
             Poll.findOne(
                 { _id: req.query.id }, 
-                { _id: 1, question: 1 },
+                {},
                 function (err, doc) {
                     if (err) { throw err; }
                     
