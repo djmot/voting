@@ -52,12 +52,10 @@ module.exports = function (app, passport) {
 				res.json({});
 			}
 		});
-		
-	// TODO: connect to pollHandler.server, which doesn't exist yet,
-	// which will handle database access to polls here.
+	
 	app.route('/api/poll')
 		.get(function (req, res) {
-			res.end('You just asked me to look up poll data.');
+			pollHandler.getPoll(req, res);
 		}).post(isLoggedIn, urlencodedParser, function (req, res) {
 			pollHandler.makePoll(req, res);
 		});

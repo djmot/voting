@@ -47,6 +47,40 @@ function PollHandler () {
             res.json(doc);
         });
     };
+    
+    this.getPoll = function (req, res) {
+        // If query 'id' was passed, search for a poll with that id.
+        // Otherwise, return all polls.
+        if (req.query.id) {
+            Poll.findOne(
+                { _id: req.query.id }, 
+                { _id: 1, question: 1 },
+                function (err, doc) {
+                    if (err) { throw err; }
+                    
+                    if (!doc) {
+                        res.json({});
+                    } else {
+                        res.json(doc);
+                    }
+                }
+            );
+        } else {
+            var result = [];
+            Poll
+                .find({}, { _id: 1, question: 1 })
+                .cursor()
+                .on('data', function(doc){
+                    result.push(doc);
+                })
+                .on('error', function(err){
+                    throw err;
+                })
+                .on('end', function(){
+                    res.json(result);
+                });
+        }
+    };
 }
 
 module.exports = PollHandler;
