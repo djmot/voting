@@ -35,3 +35,9 @@ p {
 #poll-list {
   background-color: #000;
 }
+
+#chart {
+  background-color: #fff;
+  width: 100%;
+  height: auto;
+}

@@ -59,6 +59,11 @@ module.exports = function (app, passport) {
 		}).post(isLoggedIn, urlencodedParser, function (req, res) {
 			pollHandler.makePoll(req, res);
 		});
+		
+	app.route('/api/vote')
+		.post(urlencodedParser, function (req, res) {
+			pollHandler.votePoll(req, res);
+		});
 
 	app.route('/auth/twitter')
 		.get(passport.authenticate('twitter'));

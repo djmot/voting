@@ -23,6 +23,12 @@ function PollHandler () {
                 res.json({ error: 'Empty choice string'});
                 return;
             }
+            for (var j = i + 1; j < choiceStrings.length; j++) {
+                if (choiceStrings[i] === choiceStrings[j]) {
+                    res.json({ error: 'Duplicate choices'});
+                    return;
+                }
+            }
         }
         
         // Build choiceList array for new poll document.
@@ -80,6 +86,56 @@ function PollHandler () {
                     res.json(result);
                 });
         }
+    };
+    
+    this.votePoll = function (req, res) {
+        var choice;
+        if (req.body.choiceCreate.length > 0) {
+            choice = req.body.choiceCreate;
+        } else if (req.body.choiceSelect) {
+            choice = req.body.choiceSelect;
+        } else {
+            return res.json({ error: 'No choice selected or created' });
+        }
+        
+        Poll
+            .findOne(
+                { _id: req.body.pollId }, 
+                {},
+                function (err, doc) {
+                    if (err) { throw err; }
+                    
+                    if (!doc) {
+                        res.json({ error: 'Poll not found' });
+                    } else {
+                        // Find choice and increment its vote count, or append 
+                        // new choice with a vote count of 1.
+                        var newChoice = { choice: choice };
+                        
+                        var choiceFound = false;
+                        for (var i = 0; i < doc.choiceList.length; i++) {
+                            if (doc.choiceList[i].choice === choice) {
+                                choiceFound = true;
+                                newChoice.votes = doc.choiceList[i].votes + 1;
+                                doc.choiceList[i] = newChoice;
+                                break;
+                            }
+                        }
+                        if (!choiceFound) {
+                            newChoice.votes = 1;
+                            doc.choiceList.push(newChoice);
+                        }
+                        
+                        doc.markModified('choiceList');
+                        doc.save(function (err, doc) {
+                            if (err) { throw err; }
+                            
+                            res.writeHead(301, { Location: '/poll/' + doc._id });
+                            res.end();
+                        });
+                    }
+                }
+            );
     };
 }
 
