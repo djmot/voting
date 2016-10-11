@@ -290,7 +290,7 @@ function PollHandler () {
                             var pollFound = false;
                             for (var i = 0; i < user.pollList.length; i++) {
                                 if (user.pollList[i] === req.query.id) {
-                                    user.pollList.splice(i);
+                                    user.pollList.splice(i, 1);
                                     user.markModified('pollList');
                                     pollFound = true;
                                     break;
