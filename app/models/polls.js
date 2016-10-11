@@ -6,7 +6,9 @@ var Schema = mongoose.Schema;
 var Poll = new Schema({
     _id: String,
     question: String,
-    choiceList: Object
+    choiceList: Object,
+    users: Object,
+    ips: Object
 });
 
 module.exports = mongoose.model('Poll', Poll);

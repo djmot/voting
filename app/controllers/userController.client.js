@@ -4,6 +4,7 @@
    
    var hideOnLoginElems = document.querySelectorAll('.hide-on-login');
    var showOnLoginElems = document.querySelectorAll('.show-on-login');
+   var choiceCreate = document.querySelector('#choice-create') || null;
    var apiUrl = appUrl + '/api/user';
    
    function showElems (elems) {

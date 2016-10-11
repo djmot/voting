@@ -89,7 +89,7 @@
                             });
                         }
                     });
-                } else {console.log('User does not own poll');}
+                }
                 
                 // Build the chart using charts.js.
                 var labels = [];

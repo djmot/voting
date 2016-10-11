@@ -4,6 +4,39 @@ var shortid = require('shortid');
 var Poll = require('../models/polls.js');
 var User = require('../models/users.js');
 
+function getBestIp (req) {
+	var xffString = req.headers['x-forwarded-for'] || null;
+	if (xffString && xffString.length > 0) {
+		var ind = xffString.search(',');
+		if (ind < 0) {
+			return xffString.substring(0, ind);
+		} else {
+			return xffString;
+		}
+	} else {
+		return req.connection.remoteAddress;
+	}
+}
+
+function hasVoted (req, doc) {
+    var arrName = '';
+	var searchTerm = '';
+	if (req.user) {
+		arrName = 'users';
+		searchTerm = req.user.twitter.id;
+	} else {
+		arrName = 'ips';
+		searchTerm = getBestIp(req);
+	}
+	
+	for (var i = 0; i < doc[arrName].length; i++) {
+	    if (doc[arrName][i] === searchTerm) {
+	        return true;
+	    }
+	}
+	return false;
+}
+
 function PollHandler () {
     this.makePoll = function (req, res) {
         var question = req.body.question;
@@ -47,6 +80,8 @@ function PollHandler () {
         newPoll._id = shortid.generate();
         newPoll.question = question;
         newPoll.choiceList = choiceList;
+        newPoll.users = [];
+        newPoll.ips = [];
         
         newPoll.save(function (err, doc) {
             if (err) { throw err; }
@@ -192,6 +227,8 @@ function PollHandler () {
                     
                     if (!doc) {
                         res.json({ error: 'Poll not found' });
+                    } else if (hasVoted(req, doc)) {
+                            res.json({ error: 'User already voted' });
                     } else {
                         // Find choice and increment its vote count, or append 
                         // new choice with a vote count of 1.
@@ -211,6 +248,16 @@ function PollHandler () {
                             doc.choiceList.push(newChoice);
                         }
                         
+                        // Add user to list of voters.
+                        if (req.user) {
+                            doc.users.push(req.user.twitter.id);
+                            doc.markModified('users');
+                        } else {
+                        	doc.ips.push(getBestIp(req));
+                            doc.markModified('ips');
+                        }
+                        
+                        // Save new doc and end response.
                         doc.markModified('choiceList');
                         doc.save(function (err, doc) {
                             if (err) { throw err; }
