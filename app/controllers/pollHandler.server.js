@@ -74,19 +74,44 @@ function PollHandler () {
         // If query 'id' was passed, search for a poll with that id.
         // Otherwise, return all polls.
         if (req.query.id) {
-            Poll.findOne(
-                { _id: req.query.id }, 
-                {},
-                function (err, doc) {
+            Poll
+                .findOne({ _id: req.query.id }, {})
+                .lean()
+                .exec( function (err, doc) {
                     if (err) { throw err; }
                     
                     if (!doc) {
                         res.json({});
                     } else {
-                        res.json(doc);
+                        // Append boolean indicating if user owns the poll, then 
+                        // send the enriched doc.
+                        if (!req.user) {
+                            doc.userOwned = 'false';
+                            res.json(doc);
+                            return;
+                        }
+                        User
+                            .findOne({ 'twitter.id': req.user.twitter.id }, { pollList: 1 })
+                            .lean()
+                            .exec( function (err, user) {
+                                if (err) { throw err; }
+                                
+                                if (!user) {
+                                    res.json({ error: 'User not found' });
+                                } else {
+                                    for (var i = 0; i < user.pollList.length; i++) {
+                                        if (user.pollList[i] === req.query.id) {
+                                            doc['userOwned'] = 'true';
+                                            res.json(doc);
+                                            return;
+                                        }
+                                    }
+                                    doc.userOwned = 'false';
+                                    res.json(doc);
+                                }
+                            });
                     }
-                }
-            );
+                });
         } else {
             var result = [];
             Poll
@@ -196,6 +221,51 @@ function PollHandler () {
                     }
                 }
             );
+    };
+    
+    this.deletePoll = function (req, res) {
+        if (!req.query.id) {
+            res.json({ error: 'No id param in delete request' });
+        }
+        Poll
+            .findById(req.query.id, function (err, doc) {
+                if (err) { throw err; }
+                
+                if (!doc) {
+                    res.json({ error: 'Poll not found' });
+                } else {
+                    User.findById(req.user.id, function (err, user) {
+                        if (err) { throw err; }
+                        
+                        if (!user) {
+                            res.json({ error: 'User not found' });
+                        } else {
+                            var pollFound = false;
+                            for (var i = 0; i < user.pollList.length; i++) {
+                                if (user.pollList[i] === req.query.id) {
+                                    user.pollList.splice(i);
+                                    user.markModified('pollList');
+                                    pollFound = true;
+                                    break;
+                                }
+                            }
+                            if (!pollFound) {
+                                res.json({ error: 'Poll not owned by user' });
+                            } else {
+                                user.save(function (err) {
+                                    if (err) { throw err; }
+                                    
+                                    doc.remove( function (err) {
+                                        if (err) { throw err; }
+                                        
+                                        res.end();
+                                    });
+                                });
+                            }
+                        }
+                    });
+                }
+            });
     };
 }
 

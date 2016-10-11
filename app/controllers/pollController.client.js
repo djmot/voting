@@ -75,6 +75,22 @@
                 
                 document.querySelector('#poll-id').value = pollId;
                 
+                // If user owns poll, show delete button and attach handler.
+                var deleteButton = document.querySelector('#delete-button');
+                
+                console.log('userOwned: ' + data.userOwned);
+                if (data.userOwned === 'true') {
+                    console.log('User owns poll');
+                    deleteButton.classList.remove('hidden');
+                    deleteButton.addEventListener('click', function () {
+                        if (confirm('Are you sure you want to delete this poll?')) {
+                            ajaxFunctions.ajaxRequest('DELETE', appUrl + '/api/poll?id=' + pollId, function (req, res) {
+                                window.location = appUrl + '/mypolls';
+                            });
+                        }
+                    });
+                } else {console.log('User does not own poll');}
+                
                 // Build the chart using charts.js.
                 var labels = [];
                 var chartData = [];
@@ -98,7 +114,7 @@
                         scales: {
                             yAxes: [{
                                 ticks: {
-                                    beginAtZero:true
+                                    beginAtZero: true
                                 }
                             }]
                         }

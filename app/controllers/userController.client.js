@@ -6,9 +6,9 @@
    var showOnLoginElems = document.querySelectorAll('.show-on-login');
    var apiUrl = appUrl + '/api/user';
    
-   function changeDisplayElems (elems, newDisplay) {
+   function showElems (elems) {
       for (var i = 0; i < elems.length; i++) {
-         elems[i].style.display = newDisplay;
+         elems[i].classList.remove('hidden');
       }
    }
 
@@ -18,11 +18,9 @@
       // Note: setting display to an empty string reverts display to default 
       // for that DOM element.
       if (userObject.hasOwnProperty('twitter')) {
-         changeDisplayElems(showOnLoginElems, '');
-         changeDisplayElems(hideOnLoginElems, 'none');
+         showElems(showOnLoginElems);
       } else {
-         changeDisplayElems(hideOnLoginElems, '');
-         changeDisplayElems(showOnLoginElems, 'none');
+         showElems(hideOnLoginElems);
       }
    }));
 })();

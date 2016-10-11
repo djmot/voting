@@ -57,6 +57,8 @@ module.exports = function (app, passport) {
 			pollHandler.getPoll(req, res);
 		}).post(isLoggedIn, urlencodedParser, function (req, res) {
 			pollHandler.makePoll(req, res);
+		}).delete(isLoggedIn, function (req, res) {
+			pollHandler.deletePoll(req, res);
 		});
 		
 	app.route('/api/poll/user')
