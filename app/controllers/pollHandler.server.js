@@ -2,6 +2,7 @@
 
 var shortid = require('shortid');
 var Poll = require('../models/polls.js');
+var User = require('../models/users.js');
 
 function PollHandler () {
     this.makePoll = function (req, res) {
@@ -50,7 +51,22 @@ function PollHandler () {
         newPoll.save(function (err, doc) {
             if (err) { throw err; }
             
-            res.redirect('/');
+            // Add poll id to user's pollList.
+            User.findOne({ 'twitter.id': req.user.twitter.id }, function (err, user) {
+                if (err) { throw err; }
+                
+                if (!user) {
+                    return res.json({ error: 'User not found' });
+                } else {
+                    user.pollList.push(doc._id);
+                    user.markModified('pollList');
+                    user.save(function (err) {
+                        if (err) { throw err; }
+                        
+                        res.redirect('/mypolls');
+                    });
+                }
+            });
         });
     };
     
@@ -87,6 +103,43 @@ function PollHandler () {
                 });
         }
     };
+    
+    this.getUserPolls = function (req, res) {
+        User.findOne(
+            { 'twitter.id': req.user.twitter.id }, 
+            { pollList: 1 }, 
+            function (err, user) {
+                if (err) { throw err; }
+                
+                if (!user) {
+                    return res.json({ error: 'User not found' });
+                } else {
+                    var result = [];
+                    var count = 0;
+                    var numCalls = user.pollList.length;
+                    for (var i = 0; i < numCalls; i++) {
+                        Poll.findOne(
+                            { _id: user.pollList[i] }, 
+                            { _id: 1, question: 1 },
+                            function (err, doc) {
+                                if (err) { throw err; }
+                                
+                                count++;
+                                if (!doc) {
+                                    return res.json({ error: 'Poll not found' });
+                                } else {
+                                    result.push(doc);
+                                    if (count === numCalls) {
+                                        res.json(result);
+                                    }
+                                }
+                            }
+                        );
+                    }
+                }
+            }
+        );
+    }
     
     this.votePoll = function (req, res) {
         var choice;

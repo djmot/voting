@@ -3,6 +3,7 @@
 (function () {
     
     var pollList = document.querySelector('#poll-list') || null;
+    var myPollList = document.querySelector('#my-poll-list') || null;
     var pollQuestion = document.querySelector('#poll-question') || null;
     var apiUrl = appUrl + '/api/poll';
     
@@ -18,6 +19,9 @@
         if (pollId.length > 0) {
             apiUrl += '?id=' + pollId;
         }
+    } 
+    if (myPollList) {
+        apiUrl += '/user';
     }
     
     function getColors (n) {
@@ -30,8 +34,8 @@
         return colors;
     }
     
-    // By setting apiUrl, data will be either the list of polls or a single poll
-    // document, as appropriate for the html page.
+    // By setting apiUrl, data will be either the list of all polls, user's
+    // polls, or single poll document, as appropriate for the html page.
     ajaxFunctions.ready(ajaxFunctions.ajaxRequest('GET', apiUrl, function (data) {
         
         if (pollList) {
@@ -41,6 +45,15 @@
                 newHtml += '<a href="/poll/'+data[i]._id+'"><div class="row"><div class="col-xs-12"><p>'+data[i].question+'</p></div></div></a>';
             }
             pollList.innerHTML = newHtml;
+        }
+        
+        if (myPollList) {
+            data = JSON.parse(data);
+            var newHtml = '';
+            for (var i = 0; i < data.length; i++) {
+                newHtml += '<a href="/poll/'+data[i]._id+'"><div class="row"><div class="col-xs-12"><p>'+data[i].question+'</p></div></div></a>';
+            }
+            myPollList.innerHTML = newHtml;
         }
         
         if (pollQuestion) {
@@ -91,27 +104,6 @@
                         }
                     }
                 });
-                
-                /*
-                // Add custom 'click' listener to 'Vote' button.
-                document
-                    .querySelector('#vote-button')
-                    .addEventListener('click', function () {
-                        // Request 'POST' to '/api/vote' with a 'vote'
-                        // object containing info to update poll doc.
-                        var voteObject = {
-                            id: pollId,
-                            form: {
-                                choiceSelect: document.querySelector('#choice-select').value,
-                                choiceCreate: document.querySelector('#choice-create').value,
-                            }
-                        };
-                        
-                        ajaxFunctions.ajaxRequest('POST', appUrl + '/api/vote', function (res) {
-                            console.log('I just voted, I\'m so cool :)');
-                        });
-                    });
-                    */
             }
         }
     }));

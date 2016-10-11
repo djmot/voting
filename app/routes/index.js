@@ -1,7 +1,6 @@
 'use strict';
 
 var path = process.cwd();
-var ClickHandler = require(path + '/app/controllers/clickHandler.server.js');
 var PollHandler = require(path + '/app/controllers/pollHandler.server.js');
 var bodyParser = require('body-parser');
 var urlencodedParser = bodyParser.urlencoded({ extended: false });
@@ -58,6 +57,11 @@ module.exports = function (app, passport) {
 			pollHandler.getPoll(req, res);
 		}).post(isLoggedIn, urlencodedParser, function (req, res) {
 			pollHandler.makePoll(req, res);
+		});
+		
+	app.route('/api/poll/user')
+		.get(function (req, res) {
+			pollHandler.getUserPolls(req, res);
 		});
 		
 	app.route('/api/vote')
