@@ -112,7 +112,9 @@ function PollHandler () {
                 if (err) { throw err; }
                 
                 if (!user) {
-                    return res.json({ error: 'User not found' });
+                    res.json({ error: 'User not found' });
+                } else if (user.pollList.length === 0) {
+                    res.json({});
                 } else {
                     var result = [];
                     var count = 0;
@@ -122,16 +124,21 @@ function PollHandler () {
                             { _id: user.pollList[i] }, 
                             { _id: 1, question: 1 },
                             function (err, doc) {
-                                if (err) { throw err; }
-                                
                                 count++;
-                                if (!doc) {
-                                    return res.json({ error: 'Poll not found' });
+                                if (err) {
+                                    result.push({ error: 'findOne error' });
+                                } else if (!doc) {
+                                    result.push({ error: 'Poll not found' });
                                 } else {
                                     result.push(doc);
-                                    if (count === numCalls) {
-                                        res.json(result);
+                                }
+                                if (count === numCalls) {
+                                    for (var i = 0; i < numCalls; i++) {
+                                        if (result[i].error) {
+                                            return res.json(result[i]);
+                                        }
                                     }
+                                    res.json(result);
                                 }
                             }
                         );
@@ -139,7 +146,7 @@ function PollHandler () {
                 }
             }
         );
-    }
+    };
     
     this.votePoll = function (req, res) {
         var choice;
@@ -148,7 +155,7 @@ function PollHandler () {
         } else if (req.body.choiceSelect) {
             choice = req.body.choiceSelect;
         } else {
-            return res.json({ error: 'No choice selected or created' });
+            res.json({ error: 'No choice selected or created' });
         }
         
         Poll
