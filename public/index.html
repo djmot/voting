@@ -5,38 +5,52 @@
 	<head>
 		<title>voting-djmot</title>
 		
-		<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+		<script src="https://code.jquery.com/jquery-3.1.1.min.js" type="text/javascript" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 		<link href="/public/css/main.css" rel="stylesheet" type="text/css">
 		<link href="https://fonts.googleapis.com/css?family=Droid+Sans" rel="stylesheet">
 	</head>
 
-	<header>
-		<p class="header">
-			<a class="menu" href="/">Home</a>
-			<i>|</i>
-			<a class="menu show-on-login hidden" href="/mypolls">My Polls</a>
-			<i class="show-on-login hidden">|</i>
-			<a class="menu show-on-login hidden" href="/newpoll">New Poll</a>
-			<i class="show-on-login hidden">|</i>
-			<a class="menu hide-on-login hidden" href="/auth/twitter">Login with Twitter</a>
-			<a class="menu show-on-login hidden" href="/logout">Logout</a>
-		</p>
-	</header>
-
 	<body>
-		<div class="container-fluid">
+		<nav class="navbar navbar-default navbar-fixed-top">
+			<div class="container-fluid">
+				<!-- Brand and toggle -->
+				<div class="navbar-header">
+					<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse-1" aria-expanded="false">
+						<span class="sr-only">Toggle navigation</span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+					</button>
+					<a class="navbar-brand" href="/">voting-djmot</a>
+				</div>
 		
-		<div class="row title-row">
-			<div class="col-xs-12">
-				<h1 class="title-text text-center">View Polls</h1>
-				<h3 class="hide-on-login hidden text-center">Select a poll to vote or <a href="/auth/twitter">sign in</a> to create your own poll.</h3>
-				<h3 class="show-on-login hidden text-center">Select a poll to vote or <a href="/newpoll">create your own poll.</a></h3>
+				<!-- Togglable links -->
+				<div class="collapse navbar-collapse" id="navbar-collapse-1">
+					<ul class="nav navbar-nav">
+						<li class="active"><a href="/">Home <span class="sr-only">(current)</span></a></li>
+						<li class="show-on-login hidden"><a href="/mypolls">My Polls</a></li>
+						<li class="show-on-login hidden"><a href="/newpoll">New Poll</a></li>
+						<li class="hide-on-login hidden"><a href="/auth/twitter">Login with Twitter</a></li>
+						<li class="show-on-login hidden"><a href="/logout">Logout</a></li>
+					</ul>
+				</div>
 			</div>
-		</div>
+		</nav>
 		
-		<div id="poll-list">
-		</div>
-		
+		<div class="container-fluid">
+			<div class="row title-row">
+				<div class="col-xs-12">
+					<h1 class="title-text text-center">View Polls</h1>
+					<h3 class="hide-on-login hidden text-center">Select a poll to vote or <a href="/auth/twitter">sign in</a> to create your own poll.</h3>
+					<h3 class="show-on-login hidden text-center">Select a poll to vote or <a href="/newpoll">create your own poll.</a></h3>
+				</div>
+			</div>
+			
+			<div id="poll-list">
+			</div>
 		</div>
 		
 		<p class="footer">Some authorship info here.</p>
