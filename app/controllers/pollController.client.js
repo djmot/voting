@@ -28,7 +28,7 @@
         var colors = [];
         for (var i = 0; i < n; i++) {
             colors.push(
-            "rgba("+Math.floor(256*Math.random()).toString()+","+Math.floor(256*Math.random()).toString()+","+Math.floor(256*Math.random()).toString()+",0.5)"
+            "rgba("+Math.floor(256*Math.random()).toString()+","+Math.floor(256*Math.random()).toString()+","+Math.floor(256*Math.random()).toString()+",0.8)"
             );
         }
         return colors;
@@ -42,7 +42,7 @@
             data = JSON.parse(data);
             var newHtml = '';
             for (var i = 0; i < data.length; i++) {
-                newHtml += '<a href="/poll/'+data[i]._id+'"><div class="row"><div class="col-xs-12"><p>'+data[i].question+'</p></div></div></a>';
+                newHtml += '<a href="/poll/'+data[i]._id+'"><div class="row poll-row"><div class="col-xs-12 col-md-8 col-md-offset-2 poll-col"><p class="text-center">'+data[i].question+'</p></div></div></a>';
             }
             pollList.innerHTML = newHtml;
         }
@@ -51,7 +51,7 @@
             data = JSON.parse(data);
             var newHtml = '';
             for (var i = 0; i < data.length; i++) {
-                newHtml += '<a href="/poll/'+data[i]._id+'"><div class="row"><div class="col-xs-12"><p>'+data[i].question+'</p></div></div></a>';
+                newHtml += '<a href="/poll/'+data[i]._id+'"><div class="row poll-row"><div class="col-xs-12 col-md-8 col-md-offset-2 poll-col"><p class="text-center">'+data[i].question+'</p></div></div></a>';
             }
             myPollList.innerHTML = newHtml;
         }

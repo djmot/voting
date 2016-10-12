@@ -1,27 +1,55 @@
 body {
   background-color: #000;
-  color: #000;
+  color: #fff;
+  font-family: 'Droid Sans', sans-serif;
 }
 
 a {
-  color: blue;
+  color: #00ffe9;
+}
+
+a:hover, a:focus {
+  color: #01aa9c;
+  text-decoration: none;
 }
 
 .container-fluid {
   background-color: #222;
 }
 
-.row {
+.title-row {
   background-color: #444;
   margin: 10px;
+  padding: 20px;
 }
 
 .col-xs-12 {
   background-color: #666;
 }
 
+.poll-row {
+  background-color: #444;
+  padding: 6px;
+  margin: 10px;
+}
+
+.poll-col {
+  border: 2px solid white;
+  border-radius: 10px;
+  padding: 4px;
+}
+
 p {
   margin: 8px;
+  font-size: 1.5em;
+}
+
+h1 {
+  font-size: 4em;
+}
+
+h3 {
+  font-size: 2em;
 }
 
 .header {
@@ -29,6 +57,7 @@ p {
 }
 
 .footer {
+  font-size: 1em;
   color: #fff;
 }
 
