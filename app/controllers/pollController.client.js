@@ -78,9 +78,7 @@
                 // If user owns poll, show delete button and attach handler.
                 var deleteButton = document.querySelector('#delete-button');
                 
-                console.log('userOwned: ' + data.userOwned);
                 if (data.userOwned === 'true') {
-                    console.log('User owns poll');
                     deleteButton.classList.remove('hidden');
                     deleteButton.addEventListener('click', function () {
                         if (confirm('Are you sure you want to delete this poll?')) {

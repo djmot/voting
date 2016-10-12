@@ -2,8 +2,8 @@
 
 var path = process.cwd();
 var PollHandler = require(path + '/app/controllers/pollHandler.server.js');
-var bodyParser = require('body-parser');
-var urlencodedParser = bodyParser.urlencoded({ extended: false });
+var multer = require('multer');
+var upload = multer();
 
 module.exports = function (app, passport) {
 	
@@ -55,7 +55,7 @@ module.exports = function (app, passport) {
 	app.route('/api/poll')
 		.get(function (req, res) {
 			pollHandler.getPoll(req, res);
-		}).post(isLoggedIn, urlencodedParser, function (req, res) {
+		}).post(isLoggedIn, upload.none(), function (req, res) {
 			pollHandler.makePoll(req, res);
 		}).delete(isLoggedIn, function (req, res) {
 			pollHandler.deletePoll(req, res);
@@ -67,7 +67,7 @@ module.exports = function (app, passport) {
 		});
 		
 	app.route('/api/vote')
-		.post(urlencodedParser, function (req, res) {
+		.post(upload.none(), function (req, res) {
 			pollHandler.votePoll(req, res);
 		});
 

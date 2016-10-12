@@ -98,7 +98,7 @@ function PollHandler () {
                     user.save(function (err) {
                         if (err) { throw err; }
                         
-                        res.redirect('/mypolls');
+                        res.json({ path: '/poll/' + doc._id });
                     });
                 }
             });
@@ -262,8 +262,7 @@ function PollHandler () {
                         doc.save(function (err, doc) {
                             if (err) { throw err; }
                             
-                            res.writeHead(301, { Location: '/poll/' + doc._id });
-                            res.end();
+                            res.json({ path: '/poll/' + doc._id });
                         });
                     }
                 }
