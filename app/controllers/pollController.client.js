@@ -97,7 +97,26 @@
                     chartData.push(data.choiceList[i].votes);
                 }
                 
+                // Note: this is actually a canvas object, not a rendering
+                // context, but chart.js doesn't care.
                 var ctx = document.querySelector('#chart');
+                
+                Chart.defaults.global.defaultFontColor = '#fff';
+                
+                var chart = new Chart(ctx, {
+                    type: 'pie',
+                    data: {
+                        labels: labels,
+                        datasets: [{
+                            label: '# of Votes',
+                            data: chartData,
+                            backgroundColor: getColors(data.choiceList.length)
+                        }]
+                    }
+                });
+                //-------------------------------------------------------------
+                // Alternate bar chart. Currently not in use.
+                /*
                 var chart = new Chart(ctx, {
                     type: 'bar',
                     data: {
@@ -118,6 +137,8 @@
                         }
                     }
                 });
+                */
+                //-------------------------------------------------------------
             }
         }
     }));

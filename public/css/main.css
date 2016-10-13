@@ -21,6 +21,7 @@ a:hover, a:focus {
 .main-container {
   margin-top: -20px;
   padding-top: 30px;
+  padding-bottom: 20px;
 }
 
 .separator {
@@ -39,6 +40,26 @@ a:hover, a:focus {
   border-radius: 10px;
   background-color: #444;
   padding: 4px;
+}
+
+.form-container {
+  margin: 30px;
+  padding: 20px;
+  background-color: #444;
+  border: 2px solid #fff;
+  border-radius: 10px;
+}
+
+.chart-container {
+  margin: 30px;
+  padding: 20px;
+  background-color: #444;
+  border: 2px solid #fff;
+  border-radius: 10px;
+}
+
+#delete-button {
+  margin-top: 15px;
 }
 
 p {
@@ -77,8 +98,18 @@ textarea {
   display: none;
 }
 
+.error {
+  color: #4c0000;
+  background-color: #db8787;
+  font-size: 1.5em;
+  font-weight: bold;
+  font-family: sans-serif;
+  border: 1px solid #4c0000;
+  padding: 5px;
+}
+
 #chart {
-  background-color: #fff;
+  background-color: #444;
   width: 100%;
   height: auto;
 }

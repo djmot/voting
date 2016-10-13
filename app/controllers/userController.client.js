@@ -6,12 +6,20 @@
    var showOnLoginElems = document.querySelectorAll('.show-on-login');
    var createForm = document.querySelector('#create-form') || null;
    var voteForm = document.querySelector('#vote-form') || null;
+   var messageRow = document.querySelector('#message-row') || null;
+   var messageText = document.querySelector('#message-text') || null;
    var apiUrl = appUrl + '/api/user';
    
    function showElems (elems) {
       for (var i = 0; i < elems.length; i++) {
          elems[i].classList.remove('hidden');
       }
+   }
+   
+   function showMessage (style, text) {
+      messageText.classList.add(style);
+      messageText.innerHTML = text;
+      messageRow.classList.remove('hidden');
    }
    
    ajaxFunctions.ready(function() {
@@ -24,12 +32,11 @@
                res = JSON.parse(res);
                
                if (res.error) {
-                  alert(res.error);
+                  showMessage('error', 'Error: ' + res.error);
                } else if (res.path) {
-                  alert('Poll created');
                   window.location = appUrl + res.path;
                } else {
-                  alert('Something weird happened');
+                  showMessage('error', 'Something weird happened');
                }
             });
          });
@@ -43,12 +50,11 @@
                res = JSON.parse(res);
                
                if (res.error) {
-                  alert(res.error);
+                  showMessage('error', 'Error: ' + res.error);
                } else if (res.path) {
-                  alert('Vote succeeded');
                   window.location = appUrl + res.path;
                } else {
-                  alert('Something weird happened');
+                  showMessage('error', 'Something weird happened');
                }
             });
          });
