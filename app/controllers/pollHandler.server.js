@@ -151,6 +151,8 @@ function PollHandler () {
             var result = [];
             Poll
                 .find({}, { _id: 1, question: 1 })
+                .sort({ createdAt: -1 })
+                .limit(30)
                 .cursor()
                 .on('data', function(doc){
                     result.push(doc);
@@ -182,7 +184,7 @@ function PollHandler () {
                     for (var i = 0; i < numCalls; i++) {
                         Poll.findOne(
                             { _id: user.pollList[i] }, 
-                            { _id: 1, question: 1 },
+                            { _id: 1, question: 1, createdAt: 1 },
                             function (err, doc) {
                                 count++;
                                 if (err) {
@@ -196,8 +198,13 @@ function PollHandler () {
                                     for (var i = 0; i < numCalls; i++) {
                                         if (result[i].error) {
                                             return res.json(result[i]);
+                                        } else {
+                                            result[i] = result[i].toObject();
                                         }
                                     }
+                                    result.sort(function (doc1, doc2) {
+                                        return doc2.createdAt - doc1.createdAt;
+                                    });
                                     res.json(result);
                                 }
                             }
