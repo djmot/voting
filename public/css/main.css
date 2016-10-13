@@ -2,7 +2,7 @@ body {
   padding-top: 70px;
   background-color: #000;
   color: #fff;
-  font-family: 'Droid Sans', sans-serif;
+  font-family: 'Quicksand', sans-serif;
 }
 
 a {
@@ -18,18 +18,18 @@ a:hover, a:focus {
   background-color: #222;
 }
 
-.title-row {
-  background-color: #444;
-  margin: 10px;
-  padding: 20px;
+.main-container {
+  margin-top: -20px;
+  padding-top: 30px;
 }
 
-.col-xs-12 {
-  background-color: #666;
+.separator {
+  border: 1px dashed white;
+  margin-top: 20px;
+  margin-bottom: 40px;
 }
 
 .poll-row {
-  background-color: #444;
   padding: 6px;
   margin: 10px;
 }
@@ -37,6 +37,7 @@ a:hover, a:focus {
 .poll-col {
   border: 2px solid white;
   border-radius: 10px;
+  background-color: #444;
   padding: 4px;
 }
 
@@ -46,11 +47,17 @@ p {
 }
 
 h1 {
-  font-size: 4em;
+  font-size: 4.4em;
 }
 
 h3 {
   font-size: 2em;
+}
+
+.title-text {
+  font-family: 'Quicksand', sans-serif;
+  font-weight: bold;
+  color: #fff;
 }
 
 textarea {
@@ -70,12 +77,34 @@ textarea {
   display: none;
 }
 
-#poll-list {
-  background-color: #000;
-}
-
 #chart {
   background-color: #fff;
   width: 100%;
   height: auto;
+}
+
+/* Navbar */
+nav {
+    background-color: #666;
+    color: #af3;
+    border: none;
+}
+
+.navbar-nav > li > a {
+    color: #fff;
+    background-color: #222;
+}
+
+.navbar-nav > .active > a, .navbar-nav > li > a:hover, .navbar-nav > li > a:focus {
+    color: #fff;
+    background-color: #666;
+}
+
+nav .navbar-brand {
+    color: #fff;
+}
+
+.navbar-toggle .icon-bar {
+  background-color: #fff;
+  color: #fff;
 }
