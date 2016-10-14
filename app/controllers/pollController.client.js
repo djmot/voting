@@ -74,6 +74,15 @@
                     choiceSelect.innerHTML += '<option>'+data.choiceList[i].choice+'</option>';
                 }
                 
+                var tweetButton = document.querySelector('#tweet-button');
+                tweetButton.onclick = function () {
+                     window.location = 
+                        'https://twitter.com/intent/tweet?text=' + 
+                        encodeURIComponent(data.question) +
+                        '&url=' +
+                        encodeURIComponent(window.location.href);
+                };
+                
                 document.querySelector('#poll-id').value = pollId;
                 
                 // If user owns poll, show delete button and attach handler.
