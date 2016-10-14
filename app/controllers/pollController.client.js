@@ -5,6 +5,7 @@
     var pollList = document.querySelector('#poll-list') || null;
     var myPollList = document.querySelector('#my-poll-list') || null;
     var pollQuestion = document.querySelector('#poll-question') || null;
+    var deleteConfirm = document.querySelector('#delete-confirm') || null;
     var apiUrl = appUrl + '/api/poll';
     
     var pollId = '';
@@ -76,16 +77,25 @@
                 document.querySelector('#poll-id').value = pollId;
                 
                 // If user owns poll, show delete button and attach handler.
+                // Do same for delete-confirm box and its buttons.
                 var deleteButton = document.querySelector('#delete-button');
                 
                 if (data.userOwned === 'true') {
                     deleteButton.classList.remove('hidden');
                     deleteButton.addEventListener('click', function () {
-                        if (confirm('Are you sure you want to delete this poll?')) {
-                            ajaxFunctions.ajaxRequest('DELETE', appUrl + '/api/poll?id=' + pollId, function (req, res) {
-                                window.location = appUrl + '/mypolls';
-                            });
-                        }
+                        deleteConfirm.classList.remove('hidden');
+                    });
+                    
+                    var deleteYes = document.querySelector('#delete-yes-button');
+                    deleteYes.addEventListener('click', function () {
+                        ajaxFunctions.ajaxRequest('DELETE', appUrl + '/api/poll?id=' + pollId, function (req, res) {
+                            window.location = appUrl + '/mypolls';
+                        });
+                    });
+                    
+                    var deleteNo = document.querySelector('#delete-no-button');
+                    deleteNo.addEventListener('click', function () {
+                         deleteConfirm.classList.add('hidden');
                     });
                 }
                 

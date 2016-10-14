@@ -108,6 +108,25 @@ textarea {
   padding: 5px;
 }
 
+.footer-container {
+  margin: 20px;
+}
+
+.fa {
+  margin: 10px;
+}
+
+#delete-confirm {
+  color: #4c0000;
+  background-color: #db8787;
+  font-size: 1em;
+  font-weight: bold;
+  font-family: sans-serif;
+  border: 1px solid #4c0000;
+  padding: 5px 10px 10px 10px;
+  margin-top: 15px;
+}
+
 #chart {
   background-color: #444;
   width: 100%;
