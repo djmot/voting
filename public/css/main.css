@@ -99,13 +99,14 @@ textarea {
 }
 
 .error {
-  color: #4c0000;
-  background-color: #db8787;
+  color: #c00;
+  background-color: #fcc;
   font-size: 1.5em;
   font-weight: bold;
   font-family: sans-serif;
-  border: 1px solid #4c0000;
-  padding: 5px;
+  border: 2px solid #c00;
+  border-radius: 5px;
+  padding: 7px;
 }
 
 .footer-container {
@@ -116,15 +117,40 @@ textarea {
   margin: 10px;
 }
 
+#twitter-icon {
+  margin: 0px 0px 0px 5px;
+}
+
+#tweet-button {
+  float: right;
+}
+
 #delete-confirm {
-  color: #4c0000;
-  background-color: #db8787;
+  color: #c00;
+  background-color: #fcc;
   font-size: 1em;
   font-weight: bold;
   font-family: sans-serif;
-  border: 1px solid #4c0000;
-  padding: 5px 10px 10px 10px;
+  border-top: 3px solid #c00;
+  border-radius: 0px 0px 5px 5px;
+  padding: 5px 15px 15px 15px;
   margin-top: 15px;
+}
+
+#delete-confirm .container-fluid {
+  color: #c00;
+  background-color: #fcc;
+  font-size: 1em;
+  font-weight: bold;
+  font-family: sans-serif;
+}
+
+#delete-confirm .container-fluid p {
+  margin: 15px 10px 25px 10px;
+}
+
+#delete-yes-button, #delete-no-button {
+  width: 100%;
 }
 
 #chart {
@@ -151,10 +177,10 @@ nav {
 }
 
 nav .navbar-brand {
-    color: #fff;
+    color: #00ffe9;
 }
 
 .navbar-toggle .icon-bar {
-  background-color: #fff;
-  color: #fff;
+  background-color: #00ffe9;
+  color: #00ffe9;
 }

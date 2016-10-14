@@ -74,20 +74,25 @@
 								<label for="choice-create">Or create your own choice:</label>
 								<input name="choiceCreate" type="text" class="form-control" id="choice-create" />
 							</div>
-							<button type="submit" class="btn btn-primary" id="vote-button">Vote</button>
+							<span>
+								<button type="submit" class="btn btn-primary" id="vote-button">Vote</button>
+								<a href="#" type="button" class="btn btn-primary" id="tweet-button">Share <i class="fa fa-twitter fa-lg" id="twitter-icon"></i></a>
+							</span>
 				        </form>
 			        
 			        	<button type="button" class="btn btn-warning hidden" id="delete-button">Delete poll</button>
 			        	
 			        	<div id="delete-confirm" class="container-fluid hidden">
-			        		<p>Are you sure you want to delete this poll?</p>
-			        		<div class="row">
-			        			<div class="col-xs-12 col-sm-6">
-			        				<button type="button" class="btn btn-danger" id="delete-yes-button">Yes, delete this poll forever</button>
-			        			</div>
-			        			<div class="col-xs-12 col-sm-6">
-			        				<button type="button" class="btn btn-primary" id="delete-no-button">No, I changed my mind</button>
-			        			</div>
+			        		<div class="container-fluid">
+				        		<p class="text-center">Are you sure you want to delete this poll?</p>
+				        		<div class="row">
+				        			<div class="col-xs-6">
+				        				<button type="button" class="btn btn-danger" id="delete-yes-button">Yes</button>
+				        			</div>
+				        			<div class="col-xs-6 text-right">
+				        				<button type="button" class="btn btn-primary text-right" id="delete-no-button">No</button>
+				        			</div>
+				        		</div>
 			        		</div>
 			        	</div>
 			        </div>
