@@ -9,9 +9,9 @@ function getBestIp (req) {
 	if (xffString && xffString.length > 0) {
 		var ind = xffString.search(',');
 		if (ind < 0) {
-			return xffString.substring(0, ind);
-		} else {
 			return xffString;
+		} else {
+			return xffString.substring(0, ind);
 		}
 	} else {
 		return req.connection.remoteAddress;
