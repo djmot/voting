@@ -10,7 +10,7 @@ var app = express();
 require('dotenv').load();
 require('./app/config/passport')(passport);
 
-mongoose.connect('mongodb://'+process.env.IP+'/votingdjmot');
+mongoose.connect('mongodb://djmot:'+process.env.MONGO_PASS+'@ds139425.mlab.com:39425/votingdjmot');
 
 app.use('/controllers', express.static(process.cwd() + '/app/controllers'));
 app.use('/public', express.static(process.cwd() + '/public'));
