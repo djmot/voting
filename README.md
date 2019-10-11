@@ -2,4 +2,4 @@
 
 A simple app allowing users to login through Twitter and create polls, or unauthorized users to vote on polls that have already been created.
 
-Created by David Mason (https://www.freecodecamp.com/djmot) for FreeCodeCamp, project: https://www.freecodecamp.com/challenges/build-a-voting-app
+Created for FreeCodeCamp, project: https://www.freecodecamp.com/challenges/build-a-voting-app
